@@ -30,23 +30,17 @@ export default class Snake {
     }
   }
 
-  move(food) {
+  move(food,timer,ctx) {
     //此处是核心部分，蛇的 移动方式
     //1、画一个灰色的方块，位置与蛇头重叠
     //2、将这个方块插到数组中蛇头后面一个的位置
     //3、砍去末尾的方块
     //4、将蛇头向设定方向移动一格
     var rect = new Rect(this.head.x, this.head.y, this.head.w, this.head.h, "gray");
-    this.snakeArray.splice(1, 0, rect);
 
-    //判断是否吃到食物，isEat判定函数写在最后了
-    //吃到则食物重新给位置，不砍去最后一节，即蛇变长
-    //没吃到则末尾砍掉一节，即蛇长度不变
-    if (this._isEat(food)) {
-      food = new getRandomFood();
-    } else {
-      this.snakeArray.pop();
-    }
+    this.snakeArray.splice(1, 0, rect);
+    
+    
 
     //设置蛇头的运动方向，37 左，38 上，39 右，40 下
     switch (this.direction) {
@@ -66,12 +60,21 @@ export default class Snake {
         break;
     }
 
-    // gameover判定
-    // 撞墙
-    if (this.head.x > canvas.width || this.head.x < 0 || this.head.y > canvas.height || this.head.y < 0) {
-      clearInterval(timer);
+    //判断是否吃到食物，isEat判定函数写在最后了
+    //吃到则食物重新给位置，不砍去最后一节，即蛇变长
+    //没吃到则末尾砍掉一节，即蛇长度不变
+    if (this._isEat(food)) {
+      food = new getRandomFood();
+    } else {
+      this.snakeArray.pop();
     }
 
+    this.draw(ctx);
+    // gameover判定
+    // 撞墙
+    if (this.head.x + 20 >= canvas.width || this.head.x < 0 || this.head.y + 20 >= canvas.height || this.head.y < 0) {
+      clearInterval(timer);
+    }
     // 撞自己，循环从1开始，避开蛇头与蛇头比较的情况
     for (var i = 1; i < this.snakeArray.length; i++) {
       if (this.snakeArray[i].x == this.head.x && this.snakeArray[i].y == this.head.y) {
@@ -81,7 +84,7 @@ export default class Snake {
   }
 
   _isEat(food) {
-    if (this.head.x == food.x && snake.head.y == food.y) {
+    if (this.head.x == food.x && this.head.y == food.y) {
       return true;
     } else {
       return false;
