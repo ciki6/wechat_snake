@@ -19,9 +19,8 @@ export default class Snake {
     //此处将两个后面常用的东西定为属性，方便后面调用
     this.head = snakeArray[0]; //蛇头
     this.snakeArray = snakeArray; //整蛇数组
-
-    //给定初始位置向右(同keyCode右箭头)
-    this.direction = 39;
+    //初始运动方向
+    this.direction = 'right';
   }
 
   draw(ctx) {
@@ -42,18 +41,17 @@ export default class Snake {
     
     
 
-    //设置蛇头的运动方向，37 左，38 上，39 右，40 下
     switch (this.direction) {
-      case 37:
+      case 'left':
         this.head.x -= this.head.w
         break;
-      case 38:
+      case 'up':
         this.head.y -= this.head.h
         break;
-      case 39:
+      case 'right':
         this.head.x += this.head.w
         break;
-      case 40:
+      case 'down':
         this.head.y += this.head.h
         break;
       default:
@@ -64,7 +62,7 @@ export default class Snake {
     //吃到则食物重新给位置，不砍去最后一节，即蛇变长
     //没吃到则末尾砍掉一节，即蛇长度不变
     if (this._isEat(food)) {
-      food = new getRandomFood();
+      console.log('get!')
     } else {
       this.snakeArray.pop();
     }
