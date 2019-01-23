@@ -36,13 +36,13 @@ export default class Main {
     wx.onTouchEnd(function(e) {
       endX = e.changedTouches[0].pageX;
       endY = e.changedTouches[0].pageY;
-      if (startX < endX - 100) {
+      if (startX < endX - 100 && snake.direction != 'left') {
         snake.direction = 'right';
-      } else if (startX > endX + 100) {
+      } else if (startX > endX + 100 && snake.direction != 'right') {
         snake.direction = 'left';
-      } else if (startY < endY - 100) {
+      } else if (startY < endY - 100 && snake.direction != 'up') {
         snake.direction = 'down';
-      } else if (startY > endY + 100) {
+      } else if (startY > endY + 100 && snake.direction != 'down') {
         snake.direction = 'up';
       }
     })
